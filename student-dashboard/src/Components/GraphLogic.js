@@ -21,10 +21,6 @@ const uniqueAssigmentNames = [
   ),
 ];
 
-//select type of ranking *HARDCODED RIGHT NOW*
-const rankingTypeFun = "Hoe leuk vond je deze opdracht?";
-const rankingTypeDifficulty = "Hoe moeilijk vond je deze opdracht?";
-
 // get list of unique student names
 const getUniqueStudentNames = () => [
   ...new Set(
@@ -95,26 +91,58 @@ const listOfAllPerAssignmentWithMean = (sortedAssignments, rankingType) => {
 const createList = (rankingType) => {
   const allAssignments = getUniqueAssigmentNames();
   const listOfAssignments = listOfAllperAssigments(allAssignments);
+  const listOfStudentData = [];
 
-  return listOfAllPerAssignmentWithMean(listOfAssignments, rankingType);
+  if (rankingType === "difficulty") {
+    const listOfStudentData = [
+      {
+        rankingType: rankingType,
+        data: listOfAllPerAssignmentWithMean(
+          listOfAssignments,
+          "Hoe moeilijk vond je deze opdracht?"
+        ),
+      },
+    ];
+    return listOfStudentData;
+  } else if (rankingType === "fun") {
+    const listOfStudentData = [
+      {
+        rankingType: rankingType,
+        data: listOfAllPerAssignmentWithMean(
+          listOfAssignments,
+          "Hoe leuk vond je deze opdracht?"
+        ),
+      },
+    ];
+    return listOfStudentData;
+  } else {
+    const listOfStudentData = [
+      {
+        rankingType: "fun",
+        data: listOfAllPerAssignmentWithMean(
+          listOfAssignments,
+          "Hoe leuk vond je deze opdracht?"
+        ),
+      },
+      {
+        rankingType: "difficulty",
+        data: listOfAllPerAssignmentWithMean(
+          listOfAssignments,
+          "Hoe moeilijk vond je deze opdracht?"
+        ),
+      },
+    ];
+    return listOfStudentData;
+  }
 };
 
-const initialListDifficulty = listOfAllPerAssignmentWithMean(
-  listOfAllperAssigments(uniqueAssigmentNames),
-  rankingTypeDifficulty
-);
-
-const initialListFun = listOfAllPerAssignmentWithMean(
-  listOfAllperAssigments(uniqueAssigmentNames),
-  rankingTypeFun
-);
+const initialList = [...new Set(createList("both"))];
 
 //export default
 export default {
   uniqueStudentNames,
   uniqueAssigmentNames,
   createList,
-  initialListFun,
-  initialListDifficulty,
+  initialList,
   listOfAllperAssigments,
 };

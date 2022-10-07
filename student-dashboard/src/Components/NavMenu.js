@@ -8,7 +8,10 @@ const NavMenu = (props) => {
     <Container>
       <Row>
         <Col>
-          <SelectMenu />
+          <SelectMenu
+            studentList={props.studentList}
+            handleStudentchange={props.handleStudentchange}
+          />
         </Col>
         <Col>
           <CheckBox

@@ -15,8 +15,8 @@ class BoardLogic extends Component {
         {
           name: "show difficulty",
           value: "1",
-          isChecked: true,
-          rankingType: "difficult",
+          isChecked: false,
+          rankingType: "difficulty",
         },
         {
           name: "show enjoyment",
@@ -27,30 +27,27 @@ class BoardLogic extends Component {
         {
           name: "show all",
           value: "3",
-          isChecked: false,
-          rankingType: "fun and difficult",
+          isChecked: true,
+          rankingType: "both",
         },
       ],
-      studentDataDifficulty: GraphLogic.initialListDifficulty,
-      studentDataFun: GraphLogic.initialListFun,
-      rankingType: "difficult",
+      rankingType: "both",
       studentList: GraphLogic.uniqueStudentNames,
       assignmentList: GraphLogic.uniqueAssigmentNames,
+      studentData: GraphLogic.initialList,
+      currentStudent: "select student",
     };
     this.handleChange = this.handleChange.bind(this);
-    this.updateStudentData = this.updateStudentData.bind(this);
+    this.handleStudentChange = this.handleStudentChange.bind(this);
   }
 
-  // hier verder neuzen, want de logic komt niet goed door. het ligt aan de function create list
-  updateStudentData() {
-    const newStudentData = GraphLogic.createList(this.state.rankingType);
-    console.log(newStudentData);
+  handleStudentChange(event) {
+    const { name } = event.target;
+    console.log("hoi");
     this.setState((prevState) => {
-      let newState = {
-        ...prevState,
-        studentData: newStudentData,
+      return {
+        currentStudent: name,
       };
-      return newState;
     });
   }
 
@@ -76,10 +73,9 @@ class BoardLogic extends Component {
       return {
         buttons: updatedIsChecked,
         rankingType: updatedRankingType,
+        studentData: GraphLogic.createList(updatedRankingType),
       };
     });
-
-    //this.updateStudentData();
   }
 
   render() {
@@ -90,17 +86,17 @@ class BoardLogic extends Component {
             buttonList={this.state.buttons}
             handleChange={this.handleChange}
             studentList={this.state.studentList}
+            updateStudentData={this.updateStudentData}
+            handleStudentChange={this.handleStudentChange}
+            currentStudent={this.state.currentStudent}
           />
         </Row>
-
         <Row>
           <Graph
-            //hier net als bij CheckBox een mapfunctie voor de VictoryBars
-            studentDataFun={this.state.studentDataFun}
-            studentDataDifficulty={this.state.studentDataDifficulty}
             assignmentList={this.state.assignmentList}
             studentList={this.state.studentList}
             rankingType={this.state.rankingType}
+            studentData={this.state.studentData}
           />
         </Row>
         <Row>

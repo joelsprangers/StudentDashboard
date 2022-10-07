@@ -28,13 +28,14 @@ const Graph = (props) => {
             parent: { border: "5px solid #ccc" },
           }}
         >
-  //hier net als bij CheckBox een mapfunctie maken
-            {props.victoryList.map((victoryBar, idx) => (
-  <VictoryBar
-        data={victoryBar.studentdata}
-    labels={({ datum }) => `mean fun: ${datum.y}`}
-          />)
-            </VictoryGroup>
+          {props.studentData.map((dataSet, idx) => (
+            <VictoryBar
+              key={idx}
+              data={dataSet.data}
+              labels={({ datum }) => `mean ${dataSet.rankingType}: ${datum.y}`}
+            />
+          ))}
+        </VictoryGroup>
       </VictoryChart>
     </div>
   );
