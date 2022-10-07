@@ -1,15 +1,11 @@
 import React from "react";
 
-import Header from "../../Components/Header";
-import Graph from "../../Components/Graph";
-import NavMenu from "../../Components/NavMenu";
+import BoardLogic from "../../BoardLogic";
 
 function Main() {
   return (
     <div>
-      <Header />
-      <NavMenu />
-      <Graph />
+      <BoardLogic />
     </div>
   );
 }

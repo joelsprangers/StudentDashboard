@@ -1,29 +1,23 @@
 import React, { Component } from "react";
 import { NavDropdown } from "react-bootstrap";
-import data from "../Assets/data/student-information.json";
-
-const studentNames = data.map((student) => {
-  const studentName = student["Wie ben je?"];
-  return studentName;
-});
+import GraphLogic from "./GraphLogic";
 
 class NavDropDownItem extends Component {
   constructor() {
     super();
     this.state = {
-      students: [...new Set(studentNames)],
+      students: GraphLogic.uniqueStudentNames,
+      assignments: GraphLogic.uniqueAssigmentNames,
       selectedStudent: "select student",
     };
-    console.log(this.state);
     this.onClick = this.onClick.bind(this);
   }
 
   onClick(event) {
-    console.log(event.value);
     this.setState((prevState) => {
-      console.log(this.state.selectedStudent);
+      console.log(this.state);
       return {
-        selectedStudent: event.value,
+        selectedStudent: "test",
       };
     });
   }
@@ -34,10 +28,7 @@ class NavDropDownItem extends Component {
         {this.state.students.map((name) => (
           <NavDropdown.Item
             key={name}
-            href={`#action/${name}`}
-            onClick={this.onClick}
-            value="guidoo"
-            name="poep"
+            href={`/#action/${name}`}
           >{`${name}`}</NavDropdown.Item>
         ))}
         <NavDropdown.Item href="#action/all-students">

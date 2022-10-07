@@ -3,7 +3,7 @@ import CheckBox from "./CheckBox";
 import SelectMenu from "./SelectMenu";
 import { Container, Row, Col } from "react-bootstrap";
 
-const NavMenu = () => {
+const NavMenu = (props) => {
   return (
     <Container>
       <Row>
@@ -11,7 +11,10 @@ const NavMenu = () => {
           <SelectMenu />
         </Col>
         <Col>
-          <CheckBox />
+          <CheckBox
+            buttonList={props.buttonList}
+            handleChange={props.handleChange}
+          />
         </Col>
       </Row>
     </Container>
