@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import GraphLogic from "./Components/GraphLogic";
 import Graph from "./Components/Graph";
-import StudentInformation from "./Components/StudentInformation";
 import Header from "./Components/Header";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -32,32 +31,50 @@ class BoardLogic extends Component {
         },
       ],
       rankingType: "both",
-      studentList: GraphLogic.uniqueStudentNames,
+      studentList: GraphLogic.studentList,
       assignmentList: GraphLogic.uniqueAssigmentNames,
       studentData: GraphLogic.initialList,
-      currentStudent: "select student",
+      currentStudent: "all students",
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleStudentChange = this.handleStudentChange.bind(this);
   }
 
   handleStudentChange(event) {
-    const { name } = event.target;
-    console.log("hoi");
+    const studentName = event.target.name;
+    console.log(studentName);
+    let updatedStudentSelection = "";
     this.setState((prevState) => {
+      const updatedIsSelected = prevState.studentList.map((student) => {
+        if (student.name === studentName) {
+          updatedStudentSelection = student.name;
+          return {
+            ...student,
+            isSelected: !student.isSelected,
+          };
+        }
+        return {
+          ...student,
+          isSelected: false,
+        };
+      });
+
       return {
-        currentStudent: name,
+        ...prevState,
+        studentList: updatedIsSelected,
+        currentStudent: updatedStudentSelection,
+        studentData: GraphLogic.createList(this.state.rankingType, studentName),
       };
     });
   }
 
-  handleChange(event) {
-    const { name } = event.target;
+  handleChange(e) {
+    const buttonName = e.target.name;
     let updatedRankingType = "";
 
     this.setState((prevState) => {
       const updatedIsChecked = prevState.buttons.map((button) => {
-        if (button.name === name) {
+        if (button.name === buttonName) {
           updatedRankingType = button.rankingType;
           return {
             ...button,
@@ -71,9 +88,13 @@ class BoardLogic extends Component {
       });
 
       return {
+        ...prevState,
         buttons: updatedIsChecked,
         rankingType: updatedRankingType,
-        studentData: GraphLogic.createList(updatedRankingType),
+        studentData: GraphLogic.createList(
+          updatedRankingType,
+          this.state.currentStudent
+        ),
       };
     });
   }
@@ -86,11 +107,11 @@ class BoardLogic extends Component {
             buttonList={this.state.buttons}
             handleChange={this.handleChange}
             studentList={this.state.studentList}
-            updateStudentData={this.updateStudentData}
             handleStudentChange={this.handleStudentChange}
             currentStudent={this.state.currentStudent}
           />
         </Row>
+
         <Row>
           <Graph
             assignmentList={this.state.assignmentList}
@@ -98,9 +119,6 @@ class BoardLogic extends Component {
             rankingType={this.state.rankingType}
             studentData={this.state.studentData}
           />
-        </Row>
-        <Row>
-          <StudentInformation activeRanking={this.state.rankingType} />
         </Row>
       </Container>
     );

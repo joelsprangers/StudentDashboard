@@ -11,7 +11,7 @@ const CheckBox = (props) => {
           type="checkbox"
           variant={"outline-secondary"}
           name={button.name}
-          value={button.value}
+          value={button.name}
           checked={button.isChecked}
           onChange={props.handleChange}
         >

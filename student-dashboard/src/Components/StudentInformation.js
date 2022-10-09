@@ -1,9 +1,10 @@
 import React from "react";
 
+// not implemented, but can be used to display information.
 function StudentInformation(props) {
   return (
     <div>
-      <h1>op dit moment is gesorteerd op ranking {props.activeRanking}</h1>
+      <h5>Op dit moment is gesorteerd op ranking {props.activeRanking}.</h5>
     </div>
   );
 }

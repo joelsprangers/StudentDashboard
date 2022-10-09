@@ -1,15 +1,5 @@
 import data from "../Assets/data/student-information.json";
 
-// create list of unique student names
-const uniqueStudentNames = [
-  ...new Set(
-    data.map((student) => {
-      const studentName = student["Wie ben je?"];
-      return studentName;
-    })
-  ),
-];
-
 //create list of unique assignmets
 const uniqueAssigmentNames = [
   ...new Set(
@@ -17,6 +7,16 @@ const uniqueAssigmentNames = [
       const assignmentName =
         assignment["Welke opdracht of welk project lever je nu in?"];
       return assignmentName;
+    })
+  ),
+];
+
+// create list of unique student names
+const uniqueStudentNames = [
+  ...new Set(
+    data.map((student) => {
+      const studentName = student["Wie ben je?"];
+      return studentName;
     })
   ),
 ];
@@ -42,16 +42,34 @@ const getUniqueAssigmentNames = () => [
   ),
 ];
 
+//sort by student
+const sortDataByStudent = (studentName) => {
+  if (studentName !== "all students") {
+    const dataListByStudent = [];
+
+    data.filter((record) => {
+      if (record["Wie ben je?"] === studentName) {
+        dataListByStudent.push(record);
+      }
+      return dataListByStudent;
+    });
+    return dataListByStudent;
+  } else return data;
+};
+
 //get all records of the same assignment
-const createAssignmentList = (assignmentName) => {
+const createAssignmentList = (assignmentName, studentName) => {
   const assignmentList = [];
-  data.filter((record) => {
+  const filteredData = sortDataByStudent(studentName);
+
+  filteredData.filter((record) => {
     if (
       record["Welke opdracht of welk project lever je nu in?"] ===
       assignmentName
     ) {
       assignmentList.push(record);
     }
+    return assignmentList;
   });
   return assignmentList;
 };
@@ -67,10 +85,10 @@ const calculateMeanScore = (assignmentList, rankingType) =>
     }, 0) / assignmentList.length;
 
 //create list of all Assigments, seperated per each assignment
-const listOfAllperAssigments = (uniqueAssigmentNames) => {
+const listOfAllperAssigments = (uniqueAssigmentNames, studentName) => {
   const totalList = [];
   uniqueAssigmentNames.map((name) => {
-    totalList.push(createAssignmentList(name));
+    totalList.push(createAssignmentList(name, studentName));
   });
   return totalList;
 };
@@ -88,10 +106,10 @@ const listOfAllPerAssignmentWithMean = (sortedAssignments, rankingType) => {
   return totalListWithMean;
 };
 
-const createList = (rankingType) => {
+//create dynamic list
+const createList = (rankingType, studentName) => {
   const allAssignments = getUniqueAssigmentNames();
-  const listOfAssignments = listOfAllperAssigments(allAssignments);
-  const listOfStudentData = [];
+  const listOfAssignments = listOfAllperAssigments(allAssignments, studentName);
 
   if (rankingType === "difficulty") {
     const listOfStudentData = [
@@ -136,7 +154,18 @@ const createList = (rankingType) => {
   }
 };
 
-const initialList = [...new Set(createList("both"))];
+//create student list
+const createStudentList = () => {
+  let listOfStudents = [{ name: "all students", isSelected: true }];
+  uniqueStudentNames.map((student) => {
+    listOfStudents.push({ name: student, isSelected: false });
+  });
+  return listOfStudents;
+};
+
+//initiate lists
+const initialList = [...new Set(createList("both", "all students"))];
+const studentList = [...new Set(createStudentList())];
 
 //export default
 export default {
@@ -144,5 +173,7 @@ export default {
   uniqueAssigmentNames,
   createList,
   initialList,
+  studentList,
+  getUniqueStudentNames,
   listOfAllperAssigments,
 };

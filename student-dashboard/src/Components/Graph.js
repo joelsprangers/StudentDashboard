@@ -32,7 +32,7 @@ const Graph = (props) => {
             <VictoryBar
               key={idx}
               data={dataSet.data}
-              labels={({ datum }) => `mean ${dataSet.rankingType}: ${datum.y}`}
+              labels={({ datum }) => `${dataSet.rankingType}: ${datum.y}`}
             />
           ))}
         </VictoryGroup>
