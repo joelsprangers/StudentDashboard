@@ -11,7 +11,7 @@ const Header = (props) => {
       <Row>
         <Navbar fixed="top" bg="light" expand="lg">
           <Container>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand>
               <img
                 alt="winc_logo"
                 src={logo}
@@ -21,7 +21,7 @@ const Header = (props) => {
             </Navbar.Brand>
             <SelectMenu
               studentList={props.studentList}
-              handleStudentChange={props.handleStudentChange}
+              updateSelectedStudent={props.updateSelectedStudent}
               currentStudent={props.currentStudent}
             />
             <CheckBox

@@ -37,12 +37,11 @@ class BoardLogic extends Component {
       currentStudent: "all students",
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleStudentChange = this.handleStudentChange.bind(this);
+    this.updateSelectedStudent = this.updateSelectedStudent.bind(this);
   }
 
-  handleStudentChange(event) {
-    const studentName = event.target.name;
-    console.log(studentName);
+  updateSelectedStudent(event) {
+    let studentName = event;
     let updatedStudentSelection = "";
     this.setState((prevState) => {
       const updatedIsSelected = prevState.studentList.map((student) => {
@@ -107,7 +106,7 @@ class BoardLogic extends Component {
             buttonList={this.state.buttons}
             handleChange={this.handleChange}
             studentList={this.state.studentList}
-            handleStudentChange={this.handleStudentChange}
+            updateSelectedStudent={this.updateSelectedStudent}
             currentStudent={this.state.currentStudent}
           />
         </Row>

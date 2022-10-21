@@ -1,35 +1,19 @@
 import React from "react";
-import { ButtonGroup, ToggleButton } from "react-bootstrap";
+import { NavDropdown } from "react-bootstrap";
 
 const NavDropDownItem = (props) => {
   return (
     <div>
-      <ButtonGroup
-        vertical
-        style={{
-          color: "#000000",
-          border: "0px",
-          width: "100%",
-          alignItems: "center",
-        }}
-      >
-        {props.studentList.map((student, idx) => (
-          <ToggleButton
-            id={`student-${idx}`}
-            type="checkbox"
-            variant={"outline-secondary"}
-            name={student.name}
-            key={idx}
-            style={{
-              border: "0px",
-              width: "100%",
-              alignItems: "center",
-            }}
-            checked={student.isSelected}
-            onChange={props.handleStudentChange}
-          >{`${student.name}`}</ToggleButton>
-        ))}
-      </ButtonGroup>
+      {props.studentList.map((student, idx) => (
+        <NavDropdown.Item
+          id={`student-${idx}`}
+          variant={"outline-secondary"}
+          name={student.name}
+          href={`#${student.name}`}
+          eventKey={student.name}
+          key={idx}
+        >{`${student.name}`}</NavDropdown.Item>
+      ))}
     </div>
   );
 };
