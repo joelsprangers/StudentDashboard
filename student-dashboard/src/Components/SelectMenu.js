@@ -10,7 +10,6 @@ const SelectMenu = (props) => {
         <NavDropdown title={props.currentStudent} id="nav-dropdown">
           <NavDropDownItem studentList={props.studentList} />
         </NavDropdown>
-        <Nav.Link href="about">about</Nav.Link>
       </Nav>
     </div>
   );

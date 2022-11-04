@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import GraphLogic from "./Components/GraphLogic";
 import Graph from "./Components/Graph";
 import Header from "./Components/Header";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
+import { Row } from "react-bootstrap";
 
 class BoardLogic extends Component {
   constructor(props) {
@@ -100,7 +99,7 @@ class BoardLogic extends Component {
 
   render() {
     return (
-      <Container>
+      <div>
         <Row>
           <Header
             buttonList={this.state.buttons}
@@ -110,7 +109,6 @@ class BoardLogic extends Component {
             currentStudent={this.state.currentStudent}
           />
         </Row>
-
         <Row>
           <Graph
             assignmentList={this.state.assignmentList}
@@ -119,7 +117,7 @@ class BoardLogic extends Component {
             studentData={this.state.studentData}
           />
         </Row>
-      </Container>
+      </div>
     );
   }
 }
